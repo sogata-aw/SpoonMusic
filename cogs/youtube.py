@@ -149,7 +149,6 @@ class YoutubeCog(commands.GroupCog, group_name="youtube"):
                 music.downloaded = True
 
                 for guild in music.requested:
-                    print(self.play_query.get(guild))
                     if not self.play_query.get(guild):
                         self.play_query[guild] = []
                     self.play_query[guild].append(music)

@@ -12,7 +12,7 @@ class Music:
         self.downloaded: bool = downloaded
         self.thumbnail: str = thumbnail
         self.time: int = time
-        self.filename: str = str(b64encode(self.title.encode()))
+        self.filename: str = b64encode(self.title.encode()).decode()
         self.requested: list[str] = [requested_by]
 
     def generate_embed(self, state: str) -> discord.Embed:
@@ -22,8 +22,9 @@ class Music:
         return embed
 
     def download(self):
+        print(self.filename)
         os.system(
-            f'yt-dlp.exe -x --audio-format opus --audio-quality 0 -v -P "music" -o "{self.filename}.%(ext)s" --restrict-filenames ' + self.url)
+            f'yt-dlp.exe --js-runtimes node --audio-format opus  --audio-quality 0 -v -P "music"  -o "{self.filename}.%(ext)s" --restrict-filenames "{self.url}"')
 
     def time_to_min(self):
         sec = self.time
@@ -52,7 +53,6 @@ class Music:
         cmd = ["yt-dlp.exe", "-j", url]
 
         result = subprocess.run(cmd, capture_output=True, text=True)
-        print(result.stdout)
         info = json.loads(result.stdout)
 
         return Music(info["title"], url, guild, info["thumbnail"], info["duration"])
