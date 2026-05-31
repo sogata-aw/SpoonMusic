@@ -3,3 +3,4 @@
 .env
 music/
 yt-dlp.exe
+errors.log
