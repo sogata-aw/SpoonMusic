@@ -28,7 +28,12 @@ class BlindTestCog(commands.GroupCog, group_name="blindtest"):
             if not discord.utils.get(self.bot.voice_clients, guild=interaction.guild):
                 await voice_chat.connect()
 
-        await interaction.response.send_message(embed=discord.Embed(title="Sélection des paramètres"), view=StartBlindTestView())
+        embed = discord.Embed(title="Sélection des paramètres", description="Résumé des paramètres :")
+        embed.add_field(name="Jeux Exclus", value="Autre")
+        embed.add_field(name="Réponses à trouver", value="Titre, Artiste")
+        embed.add_field(name="Temps de réponse", value="30 secondes")
+
+        await interaction.response.send_message(embed=discord.Embed(title="Sélection des paramètres"), view=StartBlindTestView(self.bot))
 
 
 async def setup(bot):

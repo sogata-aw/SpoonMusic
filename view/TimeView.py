@@ -1,17 +1,19 @@
 import discord
 
+from embed import embed_settings
 from view.StartBlindTestView import StartBlindTestView
 
 
 class TimeView(discord.ui.View):
-    def __init__(self, settings, timeout=180):
+    def __init__(self, bot, settings, timeout=180):
         super().__init__(timeout=timeout)
+        self.bot = bot
         self.settings = settings
 
     @discord.ui.button(label="Retour", style=discord.ButtonStyle.green)
     async def retour(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(embed=discord.Embed(title="Sélection des paramètres"),
-                                                view=StartBlindTestView(settings=self.settings))
+        await interaction.response.edit_message(embed=embed_settings(self.settings),
+                                                view=StartBlindTestView(bot=self.bot, settings=self.settings))
 
     @discord.ui.select(
         placeholder="Choisissez une option",
@@ -27,5 +29,5 @@ class TimeView(discord.ui.View):
     async def answer_select(self, interaction: discord.Interaction, select: discord.ui.Select):
         self.settings["time"] = int(select.values[0])
 
-        await interaction.response.edit_message(embed=discord.Embed(title="Sélection des paramètres"),
-                                                view=StartBlindTestView(settings=self.settings))
+        await interaction.response.edit_message(embed=embed_settings(self.settings),
+                                                view=StartBlindTestView(bot=self.bot, settings=self.settings))

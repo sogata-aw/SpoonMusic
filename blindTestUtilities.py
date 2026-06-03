@@ -1,7 +1,4 @@
-import asyncio
 import random
-
-import discord
 
 
 def random_select(data, nb=10, exclude=["Other"]):
