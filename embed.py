@@ -18,13 +18,13 @@ def embed_settings(settings={}):
 
         value = ""
         if settings["answers"]["title"]:
-            value = value + "Titre "
+            value = value + "Titre."
         if settings["answers"]["artist"]:
-            value = value + "Artiste "
+            value = value + "Artiste."
         if settings["answers"]["game"]:
-            value = value + "Jeux "
+            value = value + "Jeux."
 
-        value = value.lstrip().replace(" ", ", ")
+        value = value.lstrip().replace(".", ", ")
         embed.add_field(name="Réponses à trouver", value=value)
 
         if settings["time"] == 60:

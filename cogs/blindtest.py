@@ -5,6 +5,7 @@ from discord.ext import commands, tasks
 
 import asyncio
 
+from embed import embed_settings
 from view.ExcludeView import ExcludeView
 from view.StartBlindTestView import StartBlindTestView
 
@@ -33,7 +34,7 @@ class BlindTestCog(commands.GroupCog, group_name="blindtest"):
         embed.add_field(name="Réponses à trouver", value="Titre, Artiste")
         embed.add_field(name="Temps de réponse", value="30 secondes")
 
-        await interaction.response.send_message(embed=discord.Embed(title="Sélection des paramètres"), view=StartBlindTestView(self.bot))
+        await interaction.response.send_message(embed=embed_settings(), view=StartBlindTestView(self.bot))
 
 
 async def setup(bot):
