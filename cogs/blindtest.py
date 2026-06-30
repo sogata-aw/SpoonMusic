@@ -1,10 +1,10 @@
+import asyncio
 import json
 
 import discord
 from discord.ext import commands, tasks
 
-import asyncio
-
+from bot import SpoonMusic
 from embed import embed_settings
 from view.ExcludeView import ExcludeView
 from view.StartBlindTestView import StartBlindTestView
@@ -12,14 +12,16 @@ from view.StartBlindTestView import StartBlindTestView
 
 @discord.app_commands.guild_only()
 class BlindTestCog(commands.GroupCog, group_name="blindtest"):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: SpoonMusic):
         self.bot = bot
         self.bot.tree.error(coro=self.bot.on_app_command_error)
         self.tasks: dict[str, asyncio.Task] = {}
         self.time = 0
         self.musics = []
 
-    @discord.app_commands.command(name="start", description="Connecte le bot est lance la procédure de lancement")
+    @discord.app_commands.command(
+        name="start", description="Connecte le bot est lance la procédure de lancement"
+    )
     async def start(self, interaction: discord.Interaction):
         voice_chat = interaction.user.voice.channel
 
@@ -29,12 +31,16 @@ class BlindTestCog(commands.GroupCog, group_name="blindtest"):
             if not discord.utils.get(self.bot.voice_clients, guild=interaction.guild):
                 await voice_chat.connect()
 
-        embed = discord.Embed(title="Sélection des paramètres", description="Résumé des paramètres :")
+        embed = discord.Embed(
+            title="Sélection des paramètres", description="Résumé des paramètres :"
+        )
         embed.add_field(name="Jeux Exclus", value="Autre")
         embed.add_field(name="Réponses à trouver", value="Titre, Artiste")
         embed.add_field(name="Temps de réponse", value="30 secondes")
 
-        await interaction.response.send_message(embed=embed_settings(), view=StartBlindTestView(self.bot))
+        await interaction.response.send_message(
+            embed=embed_settings(), view=StartBlindTestView(self.bot)
+        )
 
 
 async def setup(bot):

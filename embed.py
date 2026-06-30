@@ -2,7 +2,9 @@ import discord
 
 
 def embed_settings(settings={}):
-    embed = discord.Embed(title="Sélection des paramètres", description="Résumé des paramètres :")
+    embed = discord.Embed(
+        title="Sélection des paramètres", description="Résumé des paramètres :"
+    )
     if settings == {}:
         embed.add_field(name="Jeux Exclus", value="Autre")
         embed.add_field(name="Réponses à trouver", value="Titre, Artiste")
@@ -38,36 +40,45 @@ def embed_settings(settings={}):
 
 
 def embed_answers(fields, nb, nb_manches, founded={}, answers=[]):
-    embed = discord.Embed(title=f"Manche {nb}/{nb_manches}", color=discord.Color.green())
+    embed = discord.Embed(
+        title=f"Manche {nb}/{nb_manches}", color=discord.Color.green()
+    )
 
     if fields["title"]:
         embed.add_field(
             name="Titre",
-            value=f"{answers["title"]} : trouvé par {founded["title"]}" if founded.get("title") else "????",
-            inline=False
+            value=f"{answers['title']} : trouvé par {founded['title']}"
+            if founded.get("title")
+            else "????",
+            inline=False,
         )
 
     if fields["artist"]:
         embed.add_field(
             name="Artiste",
-            value=f"{answers["artist"]} : trouvé par {founded["artist"]}" if founded.get("artist") else "????",
-            inline=False
+            value=f"{answers['artist']} : trouvé par {founded['artist']}"
+            if founded.get("artist")
+            else "????",
+            inline=False,
         )
 
     if fields["game"]:
         embed.add_field(
             name="Jeu",
-            value=f"{answers["game"]} : trouvé par {founded["game"]}" if founded.get("game") else "????",
-            inline=False
+            value=f"{answers['game']} : trouvé par {founded['game']}"
+            if founded.get("game")
+            else "????",
+            inline=False,
         )
 
     return embed
 
 
-def embed_score(score, all_founded):
+def embed_score(score, answers, all_founded):
     embed = discord.Embed(
         title="Tout a été trouvé ! Voici les scores :" if all_founded else "Pas tout a été trouvé... Voici les scores :",
-        color=discord.Color.green()
+        description=f"C'était {answers['title']} de {answers['artist']} apparu dans {answers["game"]}",
+        color=discord.Color.green(),
     )
 
     for player in score:
